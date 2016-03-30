@@ -11,5 +11,21 @@
         <WindowsFormsHost Name="windowsFormsHost1" Margin="0,34,0,0">
             <gv:GViewer x:Name="gViewer"></gv:GViewer>
         </WindowsFormsHost>
+        <StackPanel Orientation="Horizontal">
+            <Label Height="20" Name="kruskal1" VerticalAlignment="Top" Padding="2">Kruskal 1x:</Label>
+            <Label Height="20" Name="kruskal1xLabel" VerticalAlignment="Top" Padding="2,2,10,2">2</Label>
+            <Label Height="20" Name="kruskal3" VerticalAlignment="Top" Padding="2">Kruskal 1000x:</Label>
+            <Label Height="20" Name="kruskal1000xLabel" VerticalAlignment="Top" Padding="2,2,10,2">2</Label>
+            <Label Height="20" Name="kruskal4" VerticalAlignment="Top" Padding="2">Kruskal koszt</Label>
+            <Label Height="20" Name="kruskalCostLabel" VerticalAlignment="Top" Padding="2,2,10,2">2</Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,15">
+            <Label Height="20" Name="prim1" VerticalAlignment="Top" Padding="2">Prim 1x:</Label>
+            <Label Height="20" Name="prim1xLabel" VerticalAlignment="Top" Padding="2,2,10,2">:</Label>
+            <Label Height="20" Name="prim3" VerticalAlignment="Top" Padding="2">Prim 1000x:</Label>
+            <Label Height="20" Name="prim1000xLabel" VerticalAlignment="Top" Padding="2,2,10,2">2</Label>
+            <Label Height="20" Name="prim4" VerticalAlignment="Top" Padding="2">Prim koszt</Label>
+            <Label Height="20" Name="primCostLabel" VerticalAlignment="Top" Padding="2,2,10,2">2</Label>
+        </StackPanel>
     </Grid>
 </Window>

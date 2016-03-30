@@ -91,6 +91,14 @@ namespace Lab2BadaniaOperacyjne
 
 
             CreateGraph(simpleMatrix, outMatrix);
+
+            kruskal1xLabel.Content = kruskalTime.Milliseconds + " ms";
+            kruskal1000xLabel.Content = kruskalTime1000x.Milliseconds + " ms";
+            kruskalCostLabel.Content = kruskalCost.ToString();
+
+            prim1xLabel.Content = primTime.Milliseconds + " ms";
+            prim1000xLabel.Content = primTime1000x.Milliseconds + " ms";
+            primCostLabel.Content = primCost.ToString();
         }
 
         private int[,] KruskalsAlgorithm(int[,] matrix)
