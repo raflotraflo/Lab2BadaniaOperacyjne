@@ -29,17 +29,17 @@ namespace Lab2BadaniaOperacyjne
         int primIterationCount = 0;
         int primCost = 0;
         TimeSpan primTime;
-        TimeSpan prilTime1000x;
+        TimeSpan primTime1000x;
+
+        DateTime startTime;
+        DateTime stopTime;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            //GenerateGraph();
-            //MyGraph();
-
-
-            int[,] macierz = new int[,] {
+            int[,] outMatrix;
+            int[,] simpleMatrix = new int[,] {
                 { 0, 1, 1, 1, 1 },
                 { 0, 1, 2, 1, 1 },
                 { 0, 1, 1, 3, 1 },
@@ -48,17 +48,49 @@ namespace Lab2BadaniaOperacyjne
             };
 
 
-            // PrimsAlgorithm(macierz);
+            // Kruskal:
 
-            DateTime startTime = DateTime.Now;
+            startTime = DateTime.Now;
+            outMatrix = KruskalsAlgorithm(simpleMatrix);
+            stopTime = DateTime.Now; 
 
-            int[,] nowaMacierz = KruskalsAlgorithm(macierz);
-            //macierz = PrimsAlgorithm(macierz);
+            kruskalTime = stopTime - startTime; //Czas dla pojedyńczego wyowałania algorytmu
 
-            DateTime stopTime = DateTime.Now;
-            TimeSpan roznica = stopTime - startTime;
 
-            CreateGraph(macierz, nowaMacierz);
+            startTime = DateTime.Now;
+            for (int i=0; i<1000; i++)
+            {
+                outMatrix = KruskalsAlgorithm(simpleMatrix); //outMatrix - macierz wyjsciowa
+            }
+            stopTime = DateTime.Now;
+            kruskalTime1000x = stopTime - startTime; //Czas dla tysiąca wywołań algorytmu
+
+            kruskalCost = CheckCost(outMatrix); //Koszt ścieżek
+
+
+
+            // Prim:
+
+            startTime = DateTime.Now;
+            outMatrix = PrimsAlgorithm(simpleMatrix);
+            stopTime = DateTime.Now;
+
+            primTime = stopTime - startTime; //Czas dla pojedyńczego wyowałania algorytmu
+
+
+            startTime = DateTime.Now;
+            for (int i = 0; i < 1000; i++)
+            {
+                outMatrix = PrimsAlgorithm(simpleMatrix); //outMatrix - macierz wyjsciowa
+            }
+            stopTime = DateTime.Now;
+            primTime1000x = stopTime - startTime; //Czas dla tysiąca wywołań algorytmu
+
+            primCost = CheckCost(outMatrix); //Koszt ścieżek
+
+
+
+            CreateGraph(simpleMatrix, outMatrix);
         }
 
         private int[,] KruskalsAlgorithm(int[,] matrix)
@@ -209,12 +241,15 @@ namespace Lab2BadaniaOperacyjne
             ObservableCollection<KEdge> edges = new ObservableCollection<KEdge>(); // lista krawędzi
             ObservableCollection<int> nodes = new ObservableCollection<int>(); // lista wierzchołków dodanych do drzewa
 
+            int iterationCount = 0; //liczba iteracji w danym algorytmie
 
             int m = 0; //startowy wierzchołek
             nodes.Add(m); //dodanie do drzewa startowego wierzchołka
 
             while (true)
             {
+                iterationCount++;
+
                 for (int n = 0; n < rowsOfmatrix; n++)
                 {
                     if (matrix[m, n] != 0)
@@ -248,8 +283,28 @@ namespace Lab2BadaniaOperacyjne
                     break;
             }
 
+            primIterationCount = iterationCount;
             return outMatrix;
 
+        }
+
+        private int CheckCost(int[,] matrix)
+        {
+            int cost = 0;
+
+            int rowsOfmatrix = matrix.GetLength(0);
+            int columnsOfMatrix = matrix.GetLength(1);
+
+            for (int m = 0; m < columnsOfMatrix; m++)
+            {
+                for (int n = 0; n < rowsOfmatrix; n++)
+                {
+                    cost += matrix[m, n];
+                    // suma kosztów wszystkich krawedzi
+                }
+            }
+
+            return cost;
         }
 
         private void CreateGraph(int[,] matrix)
