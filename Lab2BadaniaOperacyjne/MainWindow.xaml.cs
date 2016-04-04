@@ -95,10 +95,12 @@ namespace Lab2BadaniaOperacyjne
             kruskal1xLabel.Content = kruskalTime.Milliseconds + " ms";
             kruskal1000xLabel.Content = kruskalTime1000x.Milliseconds + " ms";
             kruskalCostLabel.Content = kruskalCost.ToString();
+            kruskalIterationLabel.Content = kruskalIterationCount.ToString();
 
             prim1xLabel.Content = primTime.Milliseconds + " ms";
             prim1000xLabel.Content = primTime1000x.Milliseconds + " ms";
             primCostLabel.Content = primCost.ToString();
+            primIterationLabel.Content = primIterationCount.ToString();
         }
 
         private int[,] KruskalsAlgorithm(int[,] matrix)
