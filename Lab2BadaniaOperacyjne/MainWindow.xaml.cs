@@ -39,26 +39,35 @@ namespace Lab2BadaniaOperacyjne
             InitializeComponent();
 
             int[,] outMatrix;
-            int[,] simpleMatrix = new int[,] {
-                { 0, 1, 1, 1, 1 },
-                { 0, 1, 2, 1, 1 },
-                { 0, 1, 1, 3, 1 },
-                { 5, 0, 1, 1, 4 },
-                { 6, 0, 0, 0, 0 }
-            };
+            //int[,] simpleMatrix = new int[,] {
+            //    { 0, 1, 1, 1, 1 },
+            //    { 0, 1, 2, 1, 1 },
+            //    { 0, 1, 1, 3, 1 },
+            //    { 5, 0, 1, 1, 4 },
+            //    { 6, 0, 0, 0, 0 }
+            //};
 
+            int[,] simpleMatrix = new int[,] {
+                { 0, 5, 5, 1, 1, 1, 5 },
+                { 0, 4, 2, 1, 1, 3, 4 },
+                { 0, 3, 1, 3, 5, 5, 8 },
+                { 5, 0, 5, 1, 4, 6, 6 },
+                { 5, 0, 5, 1, 4, 7, 6 },
+                { 5, 0, 5, 1, 4, 8, 9 },
+                { 6, 0, 0, 0, 0, 7, 5 }
+            };
 
             // Kruskal:
 
             startTime = DateTime.Now;
             outMatrix = KruskalsAlgorithm(simpleMatrix);
-            stopTime = DateTime.Now; 
+            stopTime = DateTime.Now;
 
             kruskalTime = stopTime - startTime; //Czas dla pojedyńczego wyowałania algorytmu
 
 
             startTime = DateTime.Now;
-            for (int i=0; i<1000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 outMatrix = KruskalsAlgorithm(simpleMatrix); //outMatrix - macierz wyjsciowa
             }
@@ -89,8 +98,8 @@ namespace Lab2BadaniaOperacyjne
             primCost = CheckCost(outMatrix); //Koszt ścieżek
 
 
-
-            CreateGraph(simpleMatrix, outMatrix);
+            //CreateGraph(simpleMatrix);
+            CreateGraph(simpleMatrix, outMatrix, true);
 
             kruskal1xLabel.Content = kruskalTime.Milliseconds + " ms";
             kruskal1000xLabel.Content = kruskalTime1000x.Milliseconds + " ms";
@@ -340,7 +349,7 @@ namespace Lab2BadaniaOperacyjne
 
         }
 
-        private void CreateGraph(int[,] matrix, int[,] newMatrix)
+        private void CreateGraph(int[,] matrix, int[,] newMatrix, bool onlyNew)
         {
             Graph graph = new Graph("graph");
 
@@ -362,7 +371,17 @@ namespace Lab2BadaniaOperacyjne
                         }
                         else
                         {
-                            graph.AddEdge(m.ToString(), matrix[m, n].ToString(), n.ToString()).Attr.ArrowheadAtTarget = ArrowStyle.None;
+
+                            if (onlyNew)
+                            {
+                                Edge edge = (Edge)graph.AddEdge(m.ToString(), n.ToString());
+                                edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Transparent;
+                                edge.Attr.ArrowheadAtTarget = ArrowStyle.None;
+                            }
+                            else
+                            {
+                                graph.AddEdge(m.ToString(), matrix[m, n].ToString(), n.ToString()).Attr.ArrowheadAtTarget = ArrowStyle.None;
+                            }
                         }
                     }
                 }
